@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aspire</title>
+</head>
+<body>
+<h1>Aspire</h1>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+<a href="/admin">Admin (Database updates)</a>
+<h3>Rating</h3>
+<ul>
+    <li><a href="/rating-manuals/">Rating Manuals</a></li>
+    <li><a href="/rating/csv">CSV Rating</a></li>
+</ul>
+<h3>Demo Functionality</h3>
+<ul>
+    <li><a href="/demo/seed-data">Seed Demo Data</a></li>
+    <li><a href="/demo/generate-csv">Generate Demo Input CSV</a></li>
+</ul>
+</body>
+</html>

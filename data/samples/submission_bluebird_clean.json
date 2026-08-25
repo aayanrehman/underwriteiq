@@ -1,0 +1,24 @@
+{
+  "submission_id": "SYN-2026-0001",
+  "applicant": {
+    "name": "Bluebird Landscaping LLC",
+    "business_type": "landscaping",
+    "years_in_business": 7,
+    "annual_revenue": 820000,
+    "employees": 11
+  },
+  "coverage_requested": {
+    "line_of_business": "general_liability",
+    "limit": 1000000,
+    "deductible": 5000
+  },
+  "loss_runs": [
+    {"year": 2024, "loss_amount": 3200, "description": "slip-and-fall, closed"},
+    {"year": 2025, "loss_amount": 0, "description": "no claims"}
+  ],
+  "property_details": {},
+  "liability_details": {
+    "prior_carrier": "Synthetic Mutual",
+    "prior_limits": 1000000
+  }
+}
