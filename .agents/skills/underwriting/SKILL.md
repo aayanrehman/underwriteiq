@@ -37,3 +37,13 @@ reviewing underwriter should answer. Neutral tone, no sales language.
 If any matched rule's observed value sits within 10% of its threshold, or
 validation flagged invalid fields, append: "AMBIGUITY: near-threshold or
 malformed data present — human review required."
+
+## Runtime contract
+
+`src/underwriteiq/memo.py` sends this file as the system prompt and asks for a
+structured `MemoDraft` (recommendation, summary, drivers, broker_requests,
+reviewer_question, ambiguity_flag). Before anyone sees the draft, deterministic
+guardrails check it: the recommendation must match the engine, every cited rule
+ID must have matched, every matched rule must be cited, and every missing field
+must appear in broker_requests. A draft that fails is discarded and the
+verified template is shown instead.
