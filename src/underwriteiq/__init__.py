@@ -1,9 +1,9 @@
-"""UnderwriteIQ — deterministic insurance underwriting review engine.
+"""UnderwriteIQ — deterministic insurance underwriting engine and simulator.
 
-The LLM agent layer lives separately (.agents/skills/underwriting/) and
-consumes this package's Assessment objects; nothing here calls an LLM.
+The LLM drafting layer (memo.py) consumes this package's Assessment objects
+and is verified against them; nothing in the decision path calls an LLM.
 """
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from .models import Assessment, GuidelineRule, RuleResult, Submission, ValidationResult
 from .rules import evaluate_all, evaluate_rule

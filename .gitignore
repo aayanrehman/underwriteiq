@@ -9,3 +9,7 @@ build/
 *.egg-info/
 data/*.db
 .DS_Store
+data/book*.jsonl
+data/model.json
+docs/_frames/
+.coverage

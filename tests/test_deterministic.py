@@ -1,11 +1,15 @@
-import json
 from pathlib import Path
 
 import pytest
 
 from underwriteiq import (
-    GuidelineRule, Store, Submission, assess_submission, evaluate_all,
-    evaluate_rule, validate,
+    GuidelineRule,
+    Store,
+    Submission,
+    assess_submission,
+    evaluate_all,
+    evaluate_rule,
+    validate,
 )
 from underwriteiq.guidelines import DEFAULT_RULES
 from underwriteiq.pipeline import load_submission
@@ -125,6 +129,7 @@ def test_sample_files_end_to_end(filename, expected, tmp_path):
     validation = validate(sub)
     results = evaluate_all(store.load_rules(), sub)
     assessment = assess_submission(sub.submission_id, results, validation)
+    store.save_submission(sub)
     store.save_assessment(assessment)
     assert assessment.recommendation == expected
     # persisted?

@@ -30,6 +30,7 @@ def decide_recommendation(
     results: list[RuleResult],
     validation: ValidationResult,
     risk_score: float,
+    refer_threshold: float = REFER_THRESHOLD,
 ) -> str:
     outcomes = [r.outcome for r in results if r.matched]
     if "decline" in outcomes:
@@ -38,7 +39,7 @@ def decide_recommendation(
         return "refer"  # can't responsibly auto-accept incomplete data
     if "refer" in outcomes:
         return "refer"
-    if risk_score >= REFER_THRESHOLD:
+    if risk_score >= refer_threshold:
         return "refer"
     return "accept"
 
