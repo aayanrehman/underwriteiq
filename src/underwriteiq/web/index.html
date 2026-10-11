@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UnderwriteIQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='3' y='3' width='26' height='26' rx='4' fill='none' stroke='%23237a52' stroke-width='4'/></svg>">
+</head>
+<body>
+  <!-- rubber-stamp ink grain -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="ink"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.3 1.45"/>
+      <feComposite in="SourceGraphic" operator="in"/></filter>
+  </svg>
+
+  <header class="masthead">
+    <div class="wordmark">UnderwriteIQ <small id="version"></small></div>
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button class="tab" role="tab" data-view="desk" aria-selected="true">Desk</button>
+      <button class="tab" role="tab" data-view="portfolio" aria-selected="false">Portfolio</button>
+      <button class="tab" role="tab" data-view="simulator" aria-selected="false">Simulator</button>
+    </nav>
+    <div class="provenance" id="provenance"></div>
+  </header>
+
+  <main>
+    <!-- ================= DESK ================= -->
+    <section id="view-desk" class="desk" role="tabpanel">
+      <aside class="inbox">
+        <h2>Inbox</h2>
+        <ol id="queue"></ol>
+      </aside>
+
+      <form class="file sheet" id="file" autocomplete="off" onsubmit="return false">
+        <div class="file-head">
+          <input id="f-name" aria-label="Applicant name">
+          <span class="sid num" id="f-sid"></span>
+        </div>
+        <fieldset>
+          <legend>Applicant</legend>
+          <div class="grid2">
+            <label class="field">Business class<select id="f-class"></select></label>
+            <label class="field">State<select id="f-state"></select></label>
+            <label class="field"><span class="row">Years in business <output id="o-years"></output></span>
+              <input type="range" id="f-years" min="0" max="40" step="1"></label>
+            <label class="field"><span class="row">Annual revenue <output id="o-revenue"></output></span>
+              <input type="range" id="f-revenue" min="0" max="1000" step="1"></label>
+            <label class="field">Employees<input type="number" id="f-employees" min="1" step="1"></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Coverage requested</legend>
+          <div class="grid2">
+            <label class="field">Line of business<select id="f-line"></select></label>
+            <label class="field">Deductible<select id="f-deductible"></select></label>
+          </div>
+          <div class="field" style="margin-top:12px">Limit
+            <div class="segmented" id="f-limit" role="group" aria-label="Limit"></div>
+          </div>
+        </fieldset>
+        <fieldset id="property-set">
+          <legend>Property</legend>
+          <div class="grid2">
+            <label class="field">Construction<select id="f-construction">
+              <option value="fire_resistive">Fire resistive</option><option value="masonry">Masonry</option>
+              <option value="joisted_masonry">Joisted masonry</option><option value="frame">Frame</option>
+            </select></label>
+            <label class="field check"><input type="checkbox" id="f-sprinklered"> Sprinklered</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Loss runs, last 3 years</legend>
+          <table class="losses">
+            <thead><tr><th>Year</th><th>Incurred</th><th>Description</th><th></th></tr></thead>
+            <tbody id="f-losses"></tbody>
+          </table>
+          <button type="button" class="link" id="add-loss">Add a claim</button>
+        </fieldset>
+      </form>
+
+      <section class="decision" aria-live="polite">
+        <div class="sheet">
+          <div class="stamp-wrap"><div class="stamp" id="stamp"></div></div>
+          <div class="meter">
+            <div class="row"><span>Risk score</span><span class="score" id="score"></span></div>
+            <div class="track"><div class="fill" id="score-fill"></div><div class="tick" id="tick"></div>
+              <span class="tick-label" id="tick-label">refer line</span></div>
+          </div>
+          <dl class="facts">
+            <dt>Indicated premium</dt><dd id="premium"></dd>
+            <dt>Claim probability, next 12 months</dt><dd id="lossprob"></dd>
+            <dd class="note" id="lossprob-note"></dd>
+          </dl>
+          <div class="worksheet" id="worksheet"></div>
+          <div class="dq" id="dq"></div>
+        </div>
+      </section>
+
+      <section class="trace">
+        <h2>Guideline trace</h2>
+        <div class="printout"><table>
+          <thead><tr><th>Rule</th><th>Guideline</th><th>Test</th><th>Observed</th><th>Result</th></tr></thead>
+          <tbody id="trace"></tbody>
+        </table></div>
+      </section>
+
+      <section class="memo">
+        <h2>Underwriter memo</h2>
+        <div class="sheet">
+          <div class="memo-body" id="memo-body">
+            <p class="memo-empty">Draft a memo to get a plain-English summary of this decision for the file. It cites the rules above, and guardrails check it against the engine before you see it.</p>
+          </div>
+          <div>
+            <button type="button" class="btn" id="draft">Draft memo</button>
+            <ul class="checks" id="checks"></ul>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ================= PORTFOLIO ================= -->
+    <section id="view-portfolio" role="tabpanel" hidden>
+      <div class="tiles" id="tiles"></div>
+      <div class="cols">
+        <div class="sheet">
+          <h2>Decisions by line of business</h2>
+          <div class="legend"><span style="--c:var(--accept)">Accept</span><span style="--c:var(--refer)">Refer</span><span style="--c:var(--decline)">Decline</span></div>
+          <div class="bars" id="mix"></div>
+        </div>
+        <div class="sheet">
+          <h2>How often each guideline fires</h2>
+          <div class="bars" id="hits"></div>
+        </div>
+        <div class="sheet">
+          <h2>Bound book against next-year claims</h2>
+          <table class="data" id="bound"></table>
+          <p class="muted" style="font-size:12.5px;margin:10px 0 0">Accepted submissions only, joined to the synthetic outcomes the underwriter never sees.</p>
+        </div>
+        <div class="sheet">
+          <h2>Data quality issues</h2>
+          <table class="data" id="dqtable"></table>
+        </div>
+        <div class="sheet">
+          <h2>Claim model</h2>
+          <p class="muted" style="font-size:13px;margin:0 0 12px" id="model-summary"></p>
+          <div class="coef" id="coef"></div>
+        </div>
+        <div class="sheet">
+          <h2>Pipeline runs</h2>
+          <table class="data" id="runs"></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SIMULATOR ================= -->
+    <section id="view-simulator" class="sim" role="tabpanel" hidden>
+      <div class="controls sheet">
+        <h2>Change the guidelines</h2>
+        <div class="presets">
+          <button type="button" class="btn ghost" data-preset="authority">Raise authority to $10M</button>
+          <button type="button" class="btn ghost" data-preset="tighten">Tighten new ventures</button>
+          <button type="button" class="btn ghost" data-preset="open">Open the gates</button>
+          <button type="button" class="link" data-preset="reset">Reset</button>
+        </div>
+        <div class="rule-ctl">
+          <div class="ctl" style="margin-left:0">
+            <span>Refer at score</span><input type="range" id="s-threshold" min="10" max="100" step="5"><output id="o-threshold"></output>
+          </div>
+        </div>
+        <div id="rule-ctls"></div>
+      </div>
+      <div>
+        <div class="compare" id="compare"></div>
+        <p class="sim-version" id="sim-version"></p>
+        <div class="sheet" style="margin-bottom:24px">
+          <h2>Decision mix</h2>
+          <div class="legend"><span style="--c:var(--accept)">Accept</span><span style="--c:var(--refer)">Refer</span><span style="--c:var(--decline)">Decline</span></div>
+          <div class="bars" id="sim-mix"></div>
+        </div>
+        <div class="sheet">
+          <h2>By line of business</h2>
+          <table class="data" id="sim-lines"></table>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="tip" role="tooltip"></div>
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>
