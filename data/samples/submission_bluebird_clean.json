@@ -5,7 +5,8 @@
     "business_type": "landscaping",
     "years_in_business": 7,
     "annual_revenue": 820000,
-    "employees": 11
+    "employees": 11,
+    "state": "WA"
   },
   "coverage_requested": {
     "line_of_business": "general_liability",
@@ -13,8 +14,16 @@
     "deductible": 5000
   },
   "loss_runs": [
-    {"year": 2024, "loss_amount": 3200, "description": "slip-and-fall, closed"},
-    {"year": 2025, "loss_amount": 0, "description": "no claims"}
+    {
+      "year": 2024,
+      "loss_amount": 3200,
+      "description": "slip-and-fall, closed"
+    },
+    {
+      "year": 2025,
+      "loss_amount": 0,
+      "description": "no claims"
+    }
   ],
   "property_details": {},
   "liability_details": {

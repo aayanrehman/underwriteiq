@@ -5,7 +5,8 @@
     "business_type": "demolition",
     "years_in_business": 1,
     "annual_revenue": 2400000,
-    "employees": 18
+    "employees": 18,
+    "state": "TX"
   },
   "coverage_requested": {
     "line_of_business": "commercial_property",
@@ -13,8 +14,16 @@
     "deductible": 25000
   },
   "loss_runs": [
-    {"year": 2025, "loss_amount": 145000, "description": "structural collapse"},
-    {"year": 2024, "loss_amount": 60000, "description": "equipment fire"}
+    {
+      "year": 2025,
+      "loss_amount": 145000,
+      "description": "structural collapse"
+    },
+    {
+      "year": 2024,
+      "loss_amount": 60000,
+      "description": "equipment fire"
+    }
   ],
   "property_details": {
     "construction_class": "frame",
